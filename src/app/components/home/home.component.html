@@ -1,0 +1,34 @@
+<app-navbar *ngIf='user_id != 0' [currentUserId]="user_id"></app-navbar>
+<div class="content-container">
+    <div class="container">
+        <p class="text">- User View #1 -</p>
+        <div class="image-container">
+            <img src="https://www.oregonlive.com/resizer/oUMQ1oZ_ZeZRRvn7B2xDomDIy8g=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/OUT33H2T7BDDVODCCXF6NYSBWQ.jpg" />
+        </div>
+        <i class="bi bi-download activeClass" (click)="buttonClick('download')"
+           [ngClass]="user_permissions[0].download === false ? 'disabledClass' : 'activeClass'">
+        </i>
+        <i class="bi bi-scissors activeClass" (click)="buttonClick('clip')"
+           [ngClass]="user_permissions[0].clip === false ? 'disabledClass' : 'activeClass'">
+        </i>
+        <i class="bi bi-trash3 activeClass" (click)="buttonClick('delete')"
+           [ngClass]="user_permissions[0].delete === false ? 'disabledClass' : 'activeClass'">
+        </i>
+    </div>
+    <div class="container">
+        <p class="text">- User View #2 -</p>
+        <div class="image-container">
+            <img src="https://www.oregonlive.com/resizer/oUMQ1oZ_ZeZRRvn7B2xDomDIy8g=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/OUT33H2T7BDDVODCCXF6NYSBWQ.jpg" />
+        </div>
+        <i class="bi bi-download activeClass" (click)="buttonClick('download')"
+            [ngClass]="user_permissions[0].download === false ? 'disabledClass2' : 'activeClass'">
+        </i>
+        <i class="bi bi-scissors activeClass" (click)="buttonClick('clip')"
+            [ngClass]="user_permissions[0].clip === false ? 'disabledClass2' : 'activeClass'">
+        </i>
+        <i class="bi bi-trash3 activeClass" (click)="buttonClick('delete')"
+            [ngClass]="user_permissions[0].delete === false ? 'disabledClass2' : 'activeClass'">
+        </i>
+    </div>
+</div>
+

@@ -1,0 +1,38 @@
+
+<div *ngIf="currentUserId" class="navbar-container">
+    <div *ngIf="flag === false && currentUserId === num" class="logo">
+        <a (click)="enterAdmin()" routerLink="/admin">
+            <i id="admin-icon" class="bi bi-person-gear"></i>
+        </a>
+    </div>
+    <div *ngIf="currentUserId != num" class="logo">
+        <a>
+            <i id="admin-icon" class="bi bi-house-fill" routerLink="/"></i>
+        </a>
+    </div>
+    <div *ngIf="flag === true" class="logo">
+        <a (click)="enterAdmin()" routerLink="/">
+            <i id="admin-icon" class="bi bi-house-fill"></i>
+        </a>
+    </div>
+    <div class="header">
+        <h3>MAMUI</h3>
+    </div>
+    <div class="filler">
+        <i id="admin-icon" class="bi bi-grid-3x3-gap-fill"></i>
+    </div>
+</div>
+
+<div *ngIf="!currentUserId" class="navbar-container">
+    <div class="logo">
+        <a  routerLink="/">
+            <i id="admin-icon" class="bi bi-house-fill"></i>
+        </a>
+    </div>
+    <div class="header">
+        <h3>MAMUI</h3>
+    </div>
+    <div class="filler">
+        <i id="admin-icon" class="bi bi-grid-3x3-gap-fill"></i>
+    </div>
+</div>  

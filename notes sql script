@@ -1,0 +1,194 @@
+CREATE TABLE user_group (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+  group_name VARCHAR(200) UNIQUE NOT NULL,
+  date_created DATETIME NOT NULL,
+  date_updated DATETIME DEFAULT NULL
+);
+
+
+CREATE TABLE mamui_user (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+  first_name VARCHAR(200) NOT NULL,
+  last_name VARCHAR(200) NOT NULL,
+  full_name VARCHAR(200) UNIQUE NOT NULL,
+  group_id INTEGER NOT NULL,
+  user_date_created DATETIME NOT NULL,
+  user_date_updated DATETIME DEFAULT NULL,
+  FOREIGN KEY (group_id) REFERENCES user_group(id)
+);
+
+CREATE TABLE assets (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+  group_id INTEGER NOT NULL,
+  share_asset BOOLEAN DEFAULT false,
+  download_asset BOOLEAN DEFAULT false, 
+  view_asset BOOLEAN DEFAULT false,
+  create_asset BOOLEAN DEFAULT false,
+  delete_asset BOOLEAN DEFAULT false, 
+  export_asset BOOLEAN DEFAULT false,
+  FOREIGN KEY (group_id) REFERENCES user_group(id)
+);
+
+CREATE TABLE clips (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+  group_id INTEGER NOT NULL,
+  share_clip BOOLEAN DEFAULT FALSE NULL,
+  download_clip BOOLEAN DEFAULT FALSE , 
+  view_clip BOOLEAN DEFAULT FALSE,
+  create_clip BOOLEAN DEFAULT FALSE,
+  delete_clip BOOLEAN DEFAULT FALSE, 
+  export_clip BOOLEAN DEFAULT FALSE,
+  FOREIGN KEY (group_id) REFERENCES user_group(id)
+);
+
+CREATE TABLE clip_bin (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+  group_id INTEGER NOT NULL,
+  share_clip_bin BOOLEAN DEFAULT FALSE NULL,
+  download_clip_bin BOOLEAN DEFAULT FALSE , 
+  view_clip_bin BOOLEAN DEFAULT FALSE,
+  create_clip_bin BOOLEAN DEFAULT FALSE,
+  delete_clip_bin BOOLEAN DEFAULT FALSE, 
+  export_clip_bin BOOLEAN DEFAULT FALSE,
+  FOREIGN KEY (group_id) REFERENCES user_group(id)
+);
+
+
+CREATE TABLE live (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+  group_id INTEGER NOT NULL,
+  approve_live_assets BOOLEAN DEFAULT FALSE NULL,
+  added_live_assets_to_clip_bin BOOLEAN DEFAULT FALSE , 
+  edit_live_assets BOOLEAN DEFAULT FALSE,
+  extending_live_ttl BOOLEAN DEFAULT FALSE,
+  delete_live_on_prem_files BOOLEAN DEFAULT FALSE, 
+  delete_live_asset BOOLEAN DEFAULT FALSE,
+  FOREIGN KEY (group_id) REFERENCES user_group(id)
+);
+
+CREATE TABLE vod (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+  group_id INTEGER NOT NULL,
+  approve_vod_assets BOOLEAN DEFAULT FALSE NULL,
+  added_vod_assets_to_clip_bin BOOLEAN DEFAULT FALSE , 
+  edit_vod_assets BOOLEAN DEFAULT FALSE,
+  extending_vod_ttl BOOLEAN DEFAULT FALSE,
+  delete_vod_on_prem_files BOOLEAN DEFAULT FALSE, 
+  delete_vod_asset BOOLEAN DEFAULT FALSE,
+  FOREIGN KEY (group_id) REFERENCES user_group(id)
+);
+
+
+INSERT INTO user_group(id, group_name, date_created, date_updated) VALUES (NULL, 'admin', NOW(), NULL);
+INSERT INTO mamui_user(id, first_name, last_name, full_name, group_id, user_date_created, user_date_updated) VALUES (NULL, "ryan", 'mclaughlin', 'ryan mclaughlin', 1,'1970-01-01 00:00:01', NULL);
+INSERT INTO assets(id, group_id, download_asset, view_asset) VALUES (NULL, 1, true, true);
+INSERT INTO clips (id, group_id, download_clip, view_clip) VALUES (NULL, 1, true, true);
+INSERT INTO clip_bin (id, group_id, download_clip_bin, view_clip_bin) VALUES (NULL, 1, true, true);
+INSERT INTO live (id, group_id, extending_live_ttl, delete_live_asset) VALUES (NULL, 1, true, true);
+INSERT INTO vod (id, group_id, extending_vod_ttl, delete_vod_asset) VALUES (NULL, 1, true, true);
+
+
+INSERT INTO user_group(id, group_name, date_created, date_updated) VALUES (NULL, 'intern', NOW(), NULL);
+INSERT INTO mamui_user(id, first_name, last_name, full_name, group_id, user_date_created, user_date_updated) VALUES (NULL, 'bilbo', 'baggins', 'baggins', 2, NOW(), NULL);
+INSERT INTO assets(id, group_id, download_asset, view_asset) VALUES (NULL, 2, true, true);
+INSERT INTO clips (id, group_id, download_clip, view_clip) VALUES (NULL, 2, true, true);
+INSERT INTO clip_bin (id, group_id, download_clip_bin, view_clip_bin) VALUES (NULL, 2, true, true);
+INSERT INTO live (id, group_id, extending_live_ttl, delete_live_asset) VALUES (NULL, 2, true, true);
+INSERT INTO vod (id, group_id, extending_vod_ttl, delete_vod_asset) VALUES (NULL, 2, true, true);
+
+
+CREATE TABLE group_permissions AS 
+  (SELECT user_group.*, 
+          if(assets.share_asset,"true", "false") share_asset,
+          if(assets.download_asset, "true", "false") download_asset,
+          if(assets.view_asset, "true", "false") view_asset,
+          if(assets.create_asset,"true", "false") create_asset,
+          if(assets.delete_asset,"true", "false") delete_asset,
+          if(assets.export_asset,"true", "false") export_asset,
+          if(clips.share_clip,"true", "false") share_clip,
+          if(clips.download_clip,"true", "false") download_clip,
+          if(clips.view_clip,"true", "false") view_clip,
+          if(clips.create_clip,"true", "false") create_clip,
+          if(clips.delete_clip,"true", "false") delete_clip,
+          if(clips.export_clip,"true", "false") export_clip,
+          if(clip_bin.share_clip_bin,"true", "false") share_clip_bin,
+          if(clip_bin.download_clip_bin,"true", "false") download_clip_bin,
+          if(clip_bin.view_clip_bin,"true", "false") view_clip_bin,
+          if(clip_bin.create_clip_bin,"true", "false") create_clip_bin,
+          if(clip_bin.delete_clip_bin,"true", "false") delete_clip_bin,
+          if(live.approve_live_assets,"true", "false") approve_live_assets,
+          if(live.added_live_assets_to_clip_bin,"true", "false") added_live_assets_to_clip_bin,
+          if(live.edit_live_assets,"true", "false") edit_live_assets,
+          if(live.extending_live_ttl,"true", "false") extending_live_ttl,
+          if(live.delete_live_on_prem_files,"true", "false") delete_live_on_prem_files,
+          if(live.delete_live_asset,"true", "false") delete_live_asset,
+          if(vod.approve_vod_assets,"true", "false") approve_vod_assets,
+          if(vod.added_vod_assets_to_clip_bin,"true", "false") added_vod_assets_to_clip_bin,
+          if(vod.edit_vod_assets,"true", "false") edit_vod_assets,
+          if(vod.extending_vod_ttl,"true", "false") extending_vod_ttl,
+          if(vod.delete_vod_on_prem_files,"true", "false") delete_vod_on_prem_files,
+          if(vod.delete_vod_asset, "true", "false") delete_vod_asset
+   FROM   user_group
+   join assets on user_group.id = assets.group_id
+   join clips on user_group.id = clips.group_id
+   join clip_bin on user_group.id = clip_bin.group_id
+   join live on user_group.id = live.group_id
+   join vod on user_group.id = vod.group_id
+  );
+
+
+select * from group_permissions
+
+
+
+CREATE TABLE users AS 
+  (SELECT user_group.id as "group_id",
+          user_group.group_name,
+          user_group.date_created as "group_created_date",
+          user_group.date_updated as "group_updated_date",
+          mamui_user.id as "user_id",
+          mamui_user.first_name,
+          mamui_user.last_name,
+          mamui_user.full_name,
+          mamui_user.user_date_created,
+          mamui_user.user_date_updated,
+          if(assets.share_asset,"true", "false") share_asset,
+          if(assets.download_asset, "true", "false") download_asset,
+          if(assets.view_asset, "true", "false") view_asset,
+          if(assets.create_asset,"true", "false") create_asset,
+          if(assets.delete_asset,"true", "false") delete_asset,
+          if(assets.export_asset,"true", "false") export_asset,
+          if(clips.share_clip,"true", "false") share_clip,
+          if(clips.download_clip,"true", "false") download_clip,
+          if(clips.view_clip,"true", "false") view_clip,
+          if(clips.create_clip,"true", "false") create_clip,
+          if(clips.delete_clip,"true", "false") delete_clip,
+          if(clips.export_clip,"true", "false") export_clip,
+          if(clip_bin.share_clip_bin,"true", "false") share_clip_bin,
+          if(clip_bin.download_clip_bin,"true", "false") download_clip_bin,
+          if(clip_bin.view_clip_bin,"true", "false") view_clip_bin,
+          if(clip_bin.create_clip_bin,"true", "false") create_clip_bin,
+          if(clip_bin.delete_clip_bin,"true", "false") delete_clip_bin,
+          if(live.approve_live_assets,"true", "false") approve_live_assets,
+          if(live.added_live_assets_to_clip_bin,"true", "false") added_live_assets_to_clip_bin,
+          if(live.edit_live_assets,"true", "false") edit_live_assets,
+          if(live.extending_live_ttl,"true", "false") extending_live_ttl,
+          if(live.delete_live_on_prem_files,"true", "false") delete_live_on_prem_files,
+          if(live.delete_live_asset,"true", "false") delete_live_asset,
+          if(vod.approve_vod_assets,"true", "false") approve_vod_assets,
+          if(vod.added_vod_assets_to_clip_bin,"true", "false") added_vod_assets_to_clip_bin,
+          if(vod.edit_vod_assets,"true", "false") edit_vod_assets,
+          if(vod.extending_vod_ttl,"true", "false") extending_vod_ttl,
+          if(vod.delete_vod_on_prem_files,"true", "false") delete_vod_on_prem_files,
+          if(vod.delete_vod_asset, "true", "false") delete_vod_asset
+   FROM   user_group
+   join mamui_user on user_group.id = mamui_user.group_id
+   join assets on user_group.id = assets.group_id
+   join clips on user_group.id = clips.group_id
+   join clip_bin on user_group.id = clip_bin.group_id
+   join live on user_group.id = live.group_id
+   join vod on user_group.id = vod.group_id
+  );
+
+
+select * from users

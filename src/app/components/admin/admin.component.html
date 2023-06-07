@@ -1,0 +1,80 @@
+<app-navbar></app-navbar>
+<div class="admin-container">
+    <div class="form-container">
+        <form (ngSubmit)="onSubmit()">
+            <div>
+                <h3>Create A New Group</h3>
+                <input type="checkbox" id="download" name="download" [(ngModel)]="download" value="download" /> Download
+                <br />
+                <input type="checkbox" id="clip" name="clip" [(ngModel)]="clip" value="clip" /> Clip
+                <br />
+                <input type="checkbox" id="delete" name="delete" [(ngModel)]="delete" value="delete" /> Delete
+                <br />
+                <input class='group-name-input' placeholder="Enter Group Name" type="text" name="user_type"
+                    [(ngModel)]="user_type" />
+                <br />
+                <br />
+                <button type="submit">Submit Group</button>
+            </div>
+        </form>
+        <form class='user-form' (ngSubmit)="userSubmit()">
+            <div>
+                <h3>Create New User</h3>
+                <input class='group-name-input' placeholder="User Name" type="text" name="user_name"
+                    [(ngModel)]="user_name" />
+                <br />
+                <br />
+                <input class='group-name-input' placeholder="Group" type="text" name="group_id" [(ngModel)]="group_id" />
+                <br />
+                <br />
+                <button type="submit">Submit Group</button>
+            </div>
+        </form>
+    </div>
+    <div class="data-container">
+    <div class="dash-container">
+         <h1>Group Settings</h1>
+        <table *ngFor="let item of myData">
+            <thead>
+              <tr>
+                <th class="group_header">Group</th>
+                <th>Download</th>
+                <th>Clip</th>
+                <th>Delete</th>
+                <th>Delete Group</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{item.user_type}}</td>
+                <td><i [ngClass]="!item.download ? 'bi bi-x-square' : 'bi bi-check-square'"></i></td>
+                <td><i [ngClass]="!item.clip ? 'bi bi-x-square' : 'bi bi-check-square'"></i></td>
+                <td><i [ngClass]="!item.delete ? 'bi bi-x-square' : 'bi bi-check-square'"></i></td>
+                <td><i class="bi bi-trash3" (click)="onDelete(item.id)"></i></td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="dash-container">
+        <h1>Users</h1>
+        <table *ngFor="let item of userData">
+            <thead>
+              <tr>
+                <th class="group_header">Group</th>
+                <th>Group ID</th>
+                <th>Delete User</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{item.user_name}}</td>
+                <td>{{item.group_id}}</td>
+                <td><i class="bi bi-trash3" (click)="onUserDelete(item.id)"></i></td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+
+

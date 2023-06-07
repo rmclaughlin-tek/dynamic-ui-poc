@@ -1,0 +1,32 @@
+{
+  "user_permissions": [
+    {
+      "id": 1,
+      "user_type": "Admin",
+      "download": true,
+      "clip": true,
+      "delete": true
+    },
+    {
+      "user_type": "Intern",
+      "download": true,
+      "clip": false,
+      "delete": false,
+      "id": 2
+    },
+    {
+      "user_type": "Fox Talent",
+      "download": false,
+      "clip": false,
+      "delete": true,
+      "id": 3
+    },
+    {
+      "user_type": "delete group",
+      "download": false,
+      "clip": false,
+      "delete": true,
+      "id": 4
+    }
+  ]
+}

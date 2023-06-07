@@ -1,0 +1,26 @@
+.login-button-container{
+    width: 100%;
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content: center; 
+    align-items: center;
+    height: 90%;
+}
+
+.login-button{
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    align-items: center; 
+    border: 1px solid black; 
+    border-radius: 25px; 
+    padding: 10px; 
+    width: 200px;
+    cursor: pointer;
+    font-size: 26px;
+}
+
+.login-button:hover{
+    background: black;
+    color: white;
+}
